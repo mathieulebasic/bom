@@ -13,7 +13,7 @@
 import { ref, computed } from 'vue'
 import { fakeItems } from './fakeItems'
 import ItemList from './components/ItemList.vue'
-import {uniq} from 'lodash-es'
+import { uniq } from 'lodash-es'
 import type { Item } from './types'
 
 const ALL_CATEGORIES = 'toutes'
@@ -21,9 +21,10 @@ const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
 const selectedCategory = ref(ALL_CATEGORIES)
 
-const itemsInCategory = computed(() => 
-  selectedCategory.value === ALL_CATEGORIES ? items.value : 
-    items.value.filter((item) => item.category === selectedCategory.value)
+const itemsInCategory = computed(() =>
+  selectedCategory.value === ALL_CATEGORIES
+    ? items.value
+    : items.value.filter((item) => item.category === selectedCategory.value),
 )
 
 const visibleItems = computed(() => {
