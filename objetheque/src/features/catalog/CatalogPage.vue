@@ -2,10 +2,10 @@
   <h1>Catalogue</h1>
   <label> <input type="checkbox" v-model="onlyAvailable" /> Disponibles seulement </label>
   <select v-model="selectedCategory">
-    <option :value="allCategoriesValue">Toutes les catégories</option>
+    <option :value="ALL_CATEGORIES">Toutes les catégories</option>
     <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
   </select>
-  <h2>{{ visibleItems.length }} objets visibles sur {{ filteredItems.length }}</h2>
+  <h2>{{ visibleItems.length }} objets visibles sur {{ itemsInCategory.length }}</h2>
   <ItemList :items="visibleItems" />
 </template>
 
@@ -13,16 +13,16 @@
 import { ref, computed } from 'vue'
 import { fakeItems } from './fakeItems'
 import ItemList from './components/ItemList.vue'
-import _ from 'lodash'
+import {uniq} from 'lodash-es'
 import type { Item } from './types'
 
-const allCategoriesValue = 'toutes'
+const ALL_CATEGORIES = 'toutes'
 const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
-const selectedCategory = ref('')
+const selectedCategory = ref('ALL_CATEGORIES')
 
-const filteredItems = computed(() => {
-  if (selectedCategory.value !== '' && selectedCategory.value !== allCategoriesValue) {
+const itemsInCategory = computed(() => {
+  if (selectedCategory.value !== '' && selectedCategory.value !== ALL_CATEGORIES) {
     return items.value.filter((item) => item.category === selectedCategory.value)
   } else {
     return items.value
@@ -30,11 +30,11 @@ const filteredItems = computed(() => {
 })
 const visibleItems = computed(() => {
   return onlyAvailable.value
-    ? filteredItems.value.filter((item) => item.available)
-    : filteredItems.value
+    ? itemsInCategory.value.filter((item) => item.available)
+    : itemsInCategory.value
 })
 
 const categories = computed(() => {
-  return _.uniq(items.value.map((item) => item.category))
+  return uniq(items.value.map((item) => item.category))
 })
 </script>
