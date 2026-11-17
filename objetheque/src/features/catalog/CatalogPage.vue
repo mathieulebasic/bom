@@ -21,13 +21,11 @@ const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
 const selectedCategory = ref('ALL_CATEGORIES')
 
-const itemsInCategory = computed(() => {
-  if (selectedCategory.value !== '' && selectedCategory.value !== ALL_CATEGORIES) {
-    return items.value.filter((item) => item.category === selectedCategory.value)
-  } else {
-    return items.value
-  }
-})
+const itemsInCategory = computed(() => 
+  selectedCategory.value === ALL_CATEGORIES ? items.value : 
+    items.value.filter((item) => item.category === selectedCategory.value)
+)
+
 const visibleItems = computed(() => {
   return onlyAvailable.value
     ? itemsInCategory.value.filter((item) => item.available)
