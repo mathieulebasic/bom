@@ -19,7 +19,7 @@ import type { Item } from './types'
 const ALL_CATEGORIES = 'toutes'
 const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
-const selectedCategory = ref('ALL_CATEGORIES')
+const selectedCategory = ref(ALL_CATEGORIES)
 
 const itemsInCategory = computed(() => 
   selectedCategory.value === ALL_CATEGORIES ? items.value : 
