@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits } from 'vue'
 import SearchBar from './SearchBar.vue'
 import { ALL_CATEGORIES } from '../catalogFilters.ts'
 
