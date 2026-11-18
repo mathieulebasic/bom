@@ -1,5 +1,5 @@
 <template>
-  <input type="text" v-model="search" placeholder="Rechercher un produit" />
+  <input type="text" v-model="search" placeholder="Rechercher un objet" />
 </template>
 
 <script lang="ts" setup>
