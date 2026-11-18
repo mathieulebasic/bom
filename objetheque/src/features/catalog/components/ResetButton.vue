@@ -1,12 +1,12 @@
 <template>
-    <button @click="emit('reset')" :disabled="inactiveFilters">Réinitialiser</button>
+  <button @click="emit('reset')" :disabled="inactiveFilters">Réinitialiser</button>
 </template>
 
 <script lang="ts" setup>
 import { defineEmits } from 'vue'
 
 defineProps<{
-    inactiveFilters: boolean
+  inactiveFilters: boolean
 }>()
 
 const emit = defineEmits<{

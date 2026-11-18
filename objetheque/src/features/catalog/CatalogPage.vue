@@ -26,7 +26,6 @@ const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
 const selectedCategory = ref(ALL_CATEGORIES)
 
-
 const applySearch = debounce((value: string) => {
   appliedSearch.value = value
 }, 300)
@@ -36,9 +35,7 @@ watch(search, (value) => {
 })
 
 const matchingItemsWithSearch = computed(() =>
-  items.value.filter((item) =>
-    item.name.toLowerCase().includes(appliedSearch.value.toLowerCase())
-  )
+  items.value.filter((item) => item.name.toLowerCase().includes(appliedSearch.value.toLowerCase())),
 )
 const itemsInCategory = computed(() =>
   selectedCategory.value === ALL_CATEGORIES

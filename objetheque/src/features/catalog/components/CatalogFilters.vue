@@ -18,9 +18,9 @@ defineProps<{
 }>()
 const ALL_CATEGORIES = 'toutes'
 
-const search = defineModel<string>('search', {required: true})
-const selectedCategory = defineModel<string>('selectedCategory', {required: true})
-const onlyAvailable = defineModel<boolean>('onlyAvailable', {required: true})
+const search = defineModel<string>('search', { required: true })
+const selectedCategory = defineModel<string>('selectedCategory', { required: true })
+const onlyAvailable = defineModel<boolean>('onlyAvailable', { required: true })
 
 const resetFilters = () => {
   selectedCategory.value = ALL_CATEGORIES
