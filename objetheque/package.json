@@ -1,6 +1,7 @@
 {
   "name": "objetheque",
   "version": "0.0.0",
+  "packageManager": "pnpm@12.16.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,7 +14,9 @@
     "lint": "run-s \"lint:*\"",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
+    "lint:ci": "oxlint . && eslint .",
     "format": "prettier --write --experimental-cli src/",
+    "format:check": "prettier --check src/",
     "prepare": "cd .. && husky objetheque/.husky"
   },
   "dependencies": {
