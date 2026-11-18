@@ -1,6 +1,6 @@
 export interface Item {
-    id: string;
-    name: string;
-    category: string;
-    available: boolean;
+  id: string
+  name: string
+  category: string
+  available: boolean
 }

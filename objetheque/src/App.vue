@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import CatalogPage from './features/catalog/CatalogPage.vue';
+import CatalogPage from './features/catalog/CatalogPage.vue'
 </script>
 
 <template>
-<CatalogPage />
+  <CatalogPage />
 </template>
 
 <style scoped></style>
