@@ -2,9 +2,9 @@ import type { Item } from '@/features/catalog/types'
 import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
 import { ref, computed, type Ref } from 'vue'
 import { uniq } from 'lodash-es'
-import { useDebouncedRef } from './useDebouncedRef'
-export function useCatalogFilter(items: Ref<Item[]>) {
-  const { searchValue, debounced, setNow } = useDebouncedRef('', 3000)
+import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
+export function useCatalogFilters(items: Ref<Item[]>) {
+  const { value: search, debounced, setNow } = useDebouncedRef('', 300)
   const selectedCategory = ref(ALL_CATEGORIES)
   const onlyAvailable = ref(false)
 
@@ -28,17 +28,16 @@ export function useCatalogFilter(items: Ref<Item[]>) {
     setNow('')
   }
   const hasActiveFilters = computed(
-    () =>
-      selectedCategory.value !== ALL_CATEGORIES || onlyAvailable.value || debounced.value !== '',
+    () => selectedCategory.value !== ALL_CATEGORIES || onlyAvailable.value || search.value !== '',
   )
 
   return {
-    selectedCategory,
-    visibleItems,
     categories,
+    search,
+    selectedCategory,
     onlyAvailable,
+    visibleItems,
     hasActiveFilters,
     resetActiveFilters,
-    searchValue,
   }
 }
