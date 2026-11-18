@@ -1,30 +1,47 @@
 <template>
   <h1>Catalogue</h1>
-  <label> <input type="checkbox" v-model="onlyAvailable" /> Disponibles seulement </label>
-  <select v-model="selectedCategory">
-    <option :value="ALL_CATEGORIES">Toutes les catégories</option>
-    <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>
-  </select>
+  <CatalogFilters
+    v-model:search="search"
+    v-model:selectedCategory="selectedCategory"
+    v-model:onlyAvailable="onlyAvailable"
+    :categories="categories"
+    :hasActiveFilters="hasActiveFilters"
+    @reset="resetActiveFilters"
+  />
   <h2>{{ visibleItems.length }} objets visibles sur {{ itemsInCategory.length }}</h2>
   <ItemList :items="visibleItems" />
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { fakeItems } from './fakeItems'
+import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
-import { uniq } from 'lodash-es'
+import { uniq, debounce } from 'lodash-es'
 import type { Item } from './types'
+import { ALL_CATEGORIES } from './catalogFilters.ts'
 
-const ALL_CATEGORIES = 'toutes'
+const search = ref('')
+const appliedSearch = ref('')
 const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
 const selectedCategory = ref(ALL_CATEGORIES)
 
+const applySearch = debounce((value: string) => {
+  appliedSearch.value = value
+}, 300)
+
+watch(search, (value) => {
+  applySearch(value)
+})
+
+const matchingItemsWithSearch = computed(() =>
+  items.value.filter((item) => item.name.toLowerCase().includes(appliedSearch.value.toLowerCase())),
+)
 const itemsInCategory = computed(() =>
   selectedCategory.value === ALL_CATEGORIES
-    ? items.value
-    : items.value.filter((item) => item.category === selectedCategory.value),
+    ? matchingItemsWithSearch.value
+    : matchingItemsWithSearch.value.filter((item) => item.category === selectedCategory.value),
 )
 
 const visibleItems = computed(() => {
@@ -36,4 +53,16 @@ const visibleItems = computed(() => {
 const categories = computed(() => {
   return uniq(items.value.map((item) => item.category))
 })
+
+const hasActiveFilters = computed(() => {
+  return selectedCategory.value !== ALL_CATEGORIES || onlyAvailable.value || search.value !== ''
+})
+
+const resetActiveFilters = () => {
+  selectedCategory.value = ALL_CATEGORIES
+  onlyAvailable.value = false
+  applySearch.cancel()
+  appliedSearch.value = ''
+  search.value = ''
+}
 </script>
