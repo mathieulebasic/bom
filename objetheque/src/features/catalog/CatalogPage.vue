@@ -11,24 +11,33 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { fakeItems } from './fakeItems'
 import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
-import { uniq } from 'lodash-es'
+import { uniq, debounce } from 'lodash-es'
 import type { Item } from './types'
 
 const ALL_CATEGORIES = 'toutes'
 
 const search = ref('')
+const appliedSearch = ref('')
 const items = ref<Item[]>(fakeItems)
 const onlyAvailable = ref(false)
 const selectedCategory = ref(ALL_CATEGORIES)
 
 
+const applySearch = debounce((value: string) => {
+  appliedSearch.value = value
+}, 300)
+
+watch(search, (value) => {
+  applySearch(value)
+})
+
 const matchingItemsWithSearch = computed(() =>
   items.value.filter((item) =>
-    item.name.toLowerCase().includes(search.value.toLowerCase())
+    item.name.toLowerCase().includes(appliedSearch.value.toLowerCase())
   )
 )
 const itemsInCategory = computed(() =>
