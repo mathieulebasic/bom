@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmits } from 'vue'
+import { defineEmits } from 'vue'
 import SearchBar from './SearchBar.vue'
-import { ALL_CATEGORIES } from '../CatalogFilters'
+import { ALL_CATEGORIES } from '../catalogFilters.ts'
 
 const emit = defineEmits<{
   reset: []

@@ -19,7 +19,7 @@ import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import { uniq, debounce } from 'lodash-es'
 import type { Item } from './types'
-import { ALL_CATEGORIES } from './CatalogFilters'
+import { ALL_CATEGORIES } from './catalogFilters.ts'
 
 const search = ref('')
 const appliedSearch = ref('')
