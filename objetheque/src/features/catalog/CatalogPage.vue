@@ -5,6 +5,8 @@
     v-model:selectedCategory="selectedCategory"
     v-model:onlyAvailable="onlyAvailable"
     :categories="categories"
+    :hasActiveFilters="hasActiveFilters"
+    @reset="resetActiveFilters"
   />
   <h2>{{ visibleItems.length }} objets visibles sur {{ itemsInCategory.length }}</h2>
   <ItemList :items="visibleItems" />
@@ -18,6 +20,7 @@ import ItemList from './components/ItemList.vue'
 import { uniq, debounce } from 'lodash-es'
 import type { Item } from './types'
 import { ALL_CATEGORIES } from './CatalogFilters'
+
 const search = ref('')
 const appliedSearch = ref('')
 const items = ref<Item[]>(fakeItems)
@@ -50,4 +53,16 @@ const visibleItems = computed(() => {
 const categories = computed(() => {
   return uniq(items.value.map((item) => item.category))
 })
+
+const hasActiveFilters = computed(() => {
+  return selectedCategory.value !== ALL_CATEGORIES || onlyAvailable.value || search.value !== ''
+})
+
+const resetActiveFilters = () => {
+  selectedCategory.value = ALL_CATEGORIES
+  onlyAvailable.value = false
+  applySearch.cancel()
+  appliedSearch.value = ''
+  search.value = ''
+}
 </script>
