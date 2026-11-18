@@ -12,11 +12,10 @@
 import { computed } from 'vue'
 import ResetButton from './ResetButton.vue'
 import SearchBar from './SearchBar.vue'
-
+import { ALL_CATEGORIES } from '../CatalogFilters'
 defineProps<{
   categories: string[]
 }>()
-const ALL_CATEGORIES = 'toutes'
 
 const search = defineModel<string>('search', { required: true })
 const selectedCategory = defineModel<string>('selectedCategory', { required: true })

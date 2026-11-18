@@ -17,9 +17,7 @@ import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import { uniq, debounce } from 'lodash-es'
 import type { Item } from './types'
-
-const ALL_CATEGORIES = 'toutes'
-
+import { ALL_CATEGORIES } from './CatalogFilters'
 const search = ref('')
 const appliedSearch = ref('')
 const items = ref<Item[]>(fakeItems)
