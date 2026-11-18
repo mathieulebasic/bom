@@ -19,12 +19,11 @@ const emit = defineEmits<{
 }>()
 
 defineProps<{
-  categories: string[],
+  categories: string[]
   hasActiveFilters: boolean
 }>()
 
 const search = defineModel<string>('search', { required: true })
 const selectedCategory = defineModel<string>('selectedCategory', { required: true })
 const onlyAvailable = defineModel<boolean>('onlyAvailable', { required: true })
-
 </script>
