@@ -1,0 +1,2 @@
+cd objetheque
+pnpm exec lint-staged
