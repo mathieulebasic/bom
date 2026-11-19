@@ -2,7 +2,7 @@
   <label> <input type="checkbox" v-model="onlyAvailable" /> Disponibles seulement </label>
   <SearchBar v-model="search" />
   <button @click="emit('reset')" :disabled="!hasActiveFilters">Réinitialiser</button>
-
+  <pre>{{ selectedCategory }}</pre>
   <select v-model="selectedCategory">
     <option :value="ALL_CATEGORIES">Toutes les catégories</option>
     <option v-for="category in categories" :key="category" :value="category">{{ category }}</option>

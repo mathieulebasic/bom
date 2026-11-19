@@ -1,6 +1,8 @@
 <template>
   <article>
-    <h3>{{ item.name }}</h3>
+    <h3>
+      <RouterLink :to="{ name: 'item', params: { id: item.id } }">{{ item.name }}</RouterLink>
+    </h3>
     <p>{{ item.category }}</p>
     <span v-if="item.available">✅ Disponible</span>
     <span v-else>❌ Indisponible</span>
@@ -9,6 +11,7 @@
 
 <script setup lang="ts">
 import type { Item } from '../types'
+import { RouterLink } from 'vue-router'
 
 defineProps<{
   item: Item
