@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: "{ name: 'catalog' }",
+      redirect: { name: 'catalog' },
     },
     {
       path: '/catalogue',

@@ -1,8 +1,8 @@
-import type { Item } from '@/features/catalog/types'
-import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
+import type { Item } from '../types'
+import { ALL_CATEGORIES } from '../catalogFilters'
 import { computed, type Ref } from 'vue'
 import { uniq } from 'lodash-es'
-import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
+import { useDebouncedRef } from '@/shared/composables/useDebouncedRef'
 export function useCatalogFilters(
   items: Ref<Item[]>,
   rawCategory: Ref<string | undefined | null>,

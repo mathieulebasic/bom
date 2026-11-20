@@ -2,7 +2,7 @@
 
 <template>
   <header>
-    <RouterLink :to="{ name: 'catalog' }">Catalog</RouterLink>
+    <RouterLink :to="{ name: 'catalog' }">Catalogue</RouterLink>
   </header>
   <RouterView />
 </template>

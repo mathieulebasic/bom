@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import SearchBar from './SearchBar.vue'
-import { ALL_CATEGORIES } from '../catalogFilters.ts'
+import { ALL_CATEGORIES } from '../catalogFilters'
 
 const emit = defineEmits<{
   reset: []
