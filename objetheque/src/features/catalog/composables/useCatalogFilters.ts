@@ -7,6 +7,7 @@ export function useCatalogFilters(
   items: Ref<Item[]>,
   rawCategory: Ref<string | undefined | null>,
   rawSearch: Ref<string | undefined | null>,
+  rawOnlyAvailable: Ref<string | undefined | null>,
 ) {
   const debounced = computed({
     get() {
@@ -31,7 +32,14 @@ export function useCatalogFilters(
       rawCategory.value = value !== ALL_CATEGORIES ? value : undefined
     },
   })
-  const onlyAvailable = ref(false)
+  const onlyAvailable = computed({
+    get() {
+      return rawOnlyAvailable.value === 'true'
+    },
+    set(value) {
+      rawOnlyAvailable.value = value ? 'true' : undefined
+    },
+  })
 
   const itemsInSearch = computed(() =>
     items.value.filter((item) => item.name.toLowerCase().includes(debounced.value.toLowerCase())),
