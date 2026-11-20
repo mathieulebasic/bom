@@ -1,9 +1,8 @@
 import { ref, watch, onScopeDispose, type Ref } from 'vue'
 import { debounce } from 'lodash-es'
 
-export function useDebouncedRef<T>(initial: T, delay = 300) {
+export function useDebouncedRef<T>(initial: T, debounced: Ref<T>, delay = 300) {
   const value = ref(initial) as Ref<T>
-  const debounced = ref(initial) as Ref<T>
 
   const update = debounce((next: T) => {
     debounced.value = next
@@ -21,5 +20,5 @@ export function useDebouncedRef<T>(initial: T, delay = 300) {
 
   onScopeDispose(() => update.cancel())
 
-  return { value, debounced, setNow }
+  return { value, setNow }
 }

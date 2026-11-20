@@ -11,7 +11,7 @@ export function useQueryParams(
     },
     set(value) {
       router.replace({
-        query: { ...route.query, [param]: value },
+        query: { ...route.query, [param]: value !== '' ? value : undefined },
       })
     },
   })

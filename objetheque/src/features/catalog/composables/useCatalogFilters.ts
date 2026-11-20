@@ -1,31 +1,36 @@
 import type { Item } from '@/features/catalog/types'
 import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
 import { ref, computed, type Ref, type ComputedRef, watch } from 'vue'
-import { get, uniq } from 'lodash-es'
+import { uniq } from 'lodash-es'
 import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
 export function useCatalogFilters(
   items: Ref<Item[]>,
-  category: Ref<string | undefined | null>,
-  catalogSearch: Ref<string | undefined | null>,
+  rawCategory: Ref<string | undefined | null>,
+  rawSearch: Ref<string | undefined | null>,
 ) {
-  const { value: search, debounced, setNow } = useDebouncedRef('', 300)
-
-  watch(debounced, (newValue) => {
-    catalogSearch.value = newValue
+  const debounced = computed({
+    get() {
+      return rawSearch.value ?? ''
+    },
+    set(value) {
+      rawSearch.value = value
+    },
   })
+
+  const { value: search, setNow } = useDebouncedRef(rawSearch?.value ?? '', debounced, 3000)
+
   const categories = computed(() => uniq(items.value.map((item) => item.category)))
 
   const selectedCategory = computed({
     get() {
-      return category?.value && categories.value.includes(category.value)
-        ? category.value
+      return rawCategory?.value && categories.value.includes(rawCategory.value)
+        ? rawCategory.value
         : ALL_CATEGORIES
     },
     set(value) {
-      category.value = value !== ALL_CATEGORIES ? value : undefined
+      rawCategory.value = value !== ALL_CATEGORIES ? value : undefined
     },
   })
-  category.value = selectedCategory.value !== ALL_CATEGORIES ? selectedCategory.value : undefined
   const onlyAvailable = ref(false)
 
   const itemsInSearch = computed(() =>

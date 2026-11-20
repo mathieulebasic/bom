@@ -28,6 +28,7 @@ const route = useRoute()
 const router = useRouter()
 
 const rawCategory = useQueryParams(router, route, 'category')
+const rawSearch = useQueryParams(router, route, 'search')
 
 const {
   categories,
@@ -37,5 +38,5 @@ const {
   visibleItems,
   hasActiveFilters,
   resetActiveFilters,
-} = useCatalogFilters(items, rawCategory)
+} = useCatalogFilters(items, rawCategory, rawSearch)
 </script>
