@@ -18,11 +18,11 @@ const router = createRouter({
       component: () => import('../features/catalog/ItemPage.vue'),
       props: true,
     },
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   name: 'not-found',
-    //   component: () => import('../features/not-found/NotFoundPage.vue')
-    // }
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../shared/pages/NotFound.vue'),
+    },
   ],
 })
 

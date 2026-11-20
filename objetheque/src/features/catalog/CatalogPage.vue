@@ -20,15 +20,15 @@ import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import type { Item } from './types'
 import { useCatalogFilters } from '@/features/catalog/composables/useCatalogFilters.ts'
-import { useQueryParams } from '@/shared/composables/useQueryParams.ts'
+import { useQueryParam } from '@/shared/composables/useQueryParam.ts'
 
 const items = ref<Item[]>(fakeItems)
 const route = useRoute()
 const router = useRouter()
 
-const rawCategory = useQueryParams(router, route, 'category')
-const rawSearch = useQueryParams(router, route, 'search')
-const rawOnlyAvailable = useQueryParams(router, route, 'onlyAvailable')
+const rawCategory = useQueryParam(router, route, 'category')
+const rawSearch = useQueryParam(router, route, 'search')
+const rawOnlyAvailable = useQueryParam(router, route, 'onlyAvailable')
 
 const {
   categories,
