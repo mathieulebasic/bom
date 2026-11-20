@@ -14,13 +14,22 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { fakeItems } from './fakeItems'
 import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import type { Item } from './types'
-import { useCatalogFilters } from '@/features/catalog/composables/useCatalogFilters.ts'
+import { useCatalogFilters } from './composables/useCatalogFilters'
+import { useQueryParam } from '@/shared/composables/useQueryParam'
 
 const items = ref<Item[]>(fakeItems)
+const route = useRoute()
+const router = useRouter()
+
+const rawCategory = useQueryParam(router, route, 'category')
+const rawSearch = useQueryParam(router, route, 'search')
+const rawOnlyAvailable = useQueryParam(router, route, 'onlyAvailable')
+
 const {
   categories,
   search,
@@ -29,5 +38,5 @@ const {
   visibleItems,
   hasActiveFilters,
   resetActiveFilters,
-} = useCatalogFilters(items)
+} = useCatalogFilters(items, rawCategory, rawSearch, rawOnlyAvailable)
 </script>

@@ -1,9 +1,10 @@
-<script setup lang="ts">
-import CatalogPage from './features/catalog/CatalogPage.vue'
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <CatalogPage />
+  <header>
+    <RouterLink :to="{ name: 'catalog' }">Catalogue</RouterLink>
+  </header>
+  <RouterView />
 </template>
 
 <style scoped></style>
