@@ -1,10 +1,18 @@
 import type { Item } from '@/features/catalog/types'
 import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
-import { ref, computed, type Ref, type ComputedRef } from 'vue'
-import { uniq } from 'lodash-es'
+import { ref, computed, type Ref, type ComputedRef, watch } from 'vue'
+import { get, uniq } from 'lodash-es'
 import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
-export function useCatalogFilters(items: Ref<Item[]>, category: Ref<string | undefined | null>) {
+export function useCatalogFilters(
+  items: Ref<Item[]>,
+  category: Ref<string | undefined | null>,
+  catalogSearch: Ref<string | undefined | null>,
+) {
   const { value: search, debounced, setNow } = useDebouncedRef('', 300)
+
+  watch(debounced, (newValue) => {
+    catalogSearch.value = newValue
+  })
   const categories = computed(() => uniq(items.value.map((item) => item.category)))
 
   const selectedCategory = computed({

@@ -1,6 +1,6 @@
 <template>
   <h1>Catalogue</h1>
-  <pre>{{ category }}</pre>
+  <pre>{{ rawCategory }}</pre>
   <CatalogFilters
     v-model:search="search"
     v-model:selectedCategory="selectedCategory"
@@ -14,29 +14,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { fakeItems } from './fakeItems'
 import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import type { Item } from './types'
 import { useCatalogFilters } from '@/features/catalog/composables/useCatalogFilters.ts'
-import { ALL_CATEGORIES } from './catalogFilters.ts'
+import { useQueryParams } from '@/shared/composables/useQueryParams.ts'
 
 const items = ref<Item[]>(fakeItems)
 const route = useRoute()
 const router = useRouter()
 
-const category = computed({
-  get() {
-    return route.query.category
-  },
-  set(value) {
-    router.replace({
-      query: { ...route.query, category: value != ALL_CATEGORIES ? value : undefined },
-    })
-  },
-})
+const rawCategory = useQueryParams(router, route, 'category')
 
 const {
   categories,
@@ -46,5 +37,5 @@ const {
   visibleItems,
   hasActiveFilters,
   resetActiveFilters,
-} = useCatalogFilters(items, category)
+} = useCatalogFilters(items, rawCategory)
 </script>
