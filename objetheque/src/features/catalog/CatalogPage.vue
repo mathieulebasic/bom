@@ -1,6 +1,5 @@
 <template>
   <h1>Catalogue</h1>
-  <pre>{{ rawCategory }}</pre>
   <CatalogFilters
     v-model:search="search"
     v-model:selectedCategory="selectedCategory"

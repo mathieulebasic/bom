@@ -1,6 +1,6 @@
 import type { Item } from '@/features/catalog/types'
 import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
-import { ref, computed, type Ref, type ComputedRef, watch } from 'vue'
+import { computed, type Ref } from 'vue'
 import { uniq } from 'lodash-es'
 import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
 export function useCatalogFilters(
@@ -18,13 +18,13 @@ export function useCatalogFilters(
     },
   })
 
-  const { value: search, setNow } = useDebouncedRef(rawSearch?.value ?? '', debounced, 3000)
+  const { value: search, setNow } = useDebouncedRef(rawSearch.value ?? '', debounced, 3000)
 
   const categories = computed(() => uniq(items.value.map((item) => item.category)))
 
   const selectedCategory = computed({
     get() {
-      return rawCategory?.value && categories.value.includes(rawCategory.value)
+      return rawCategory.value && categories.value.includes(rawCategory.value)
         ? rawCategory.value
         : ALL_CATEGORIES
     },
