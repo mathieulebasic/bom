@@ -20,5 +20,9 @@ export function useDebouncedRef<T>(initial: T, debounced: Ref<T>, delay = 300) {
 
   onScopeDispose(() => update.cancel())
 
+  watch(debounced, (next) => {
+    value.value = next
+  })
+
   return { value, setNow }
 }

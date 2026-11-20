@@ -1,5 +1,6 @@
 <template>
   <h1>Catalogue</h1>
+  <pre> {{ search }}</pre>
   <CatalogFilters
     v-model:search="search"
     v-model:selectedCategory="selectedCategory"
@@ -19,8 +20,8 @@ import { fakeItems } from './fakeItems'
 import CatalogFilters from './components/CatalogFilters.vue'
 import ItemList from './components/ItemList.vue'
 import type { Item } from './types'
-import { useCatalogFilters } from '@/features/catalog/composables/useCatalogFilters.ts'
-import { useQueryParam } from '@/shared/composables/useQueryParam.ts'
+import { useCatalogFilters } from './composables/useCatalogFilters'
+import { useQueryParam } from '@/shared/composables/useQueryParam'
 
 const items = ref<Item[]>(fakeItems)
 const route = useRoute()

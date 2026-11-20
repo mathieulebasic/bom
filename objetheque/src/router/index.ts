@@ -5,7 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/catalogue',
+      redirect: "{ name: 'catalog' }",
     },
     {
       path: '/catalogue',
@@ -13,7 +13,7 @@ const router = createRouter({
       component: () => import('../features/catalog/CatalogPage.vue'),
     },
     {
-      path: '/articles/:id',
+      path: '/objets/:id',
       name: 'item',
       component: () => import('../features/catalog/ItemPage.vue'),
       props: true,

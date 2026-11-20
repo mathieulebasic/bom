@@ -9,7 +9,7 @@ export function useCatalogFilters(
   rawSearch: Ref<string | undefined | null>,
   rawOnlyAvailable: Ref<string | undefined | null>,
 ) {
-  const debounced = computed({
+  const appliedSearch = computed({
     get() {
       return rawSearch.value ?? ''
     },
@@ -18,7 +18,7 @@ export function useCatalogFilters(
     },
   })
 
-  const { value: search, setNow } = useDebouncedRef(rawSearch.value ?? '', debounced, 3000)
+  const { value: search, setNow } = useDebouncedRef(rawSearch.value ?? '', appliedSearch, 300)
 
   const categories = computed(() => uniq(items.value.map((item) => item.category)))
 
@@ -42,7 +42,9 @@ export function useCatalogFilters(
   })
 
   const itemsInSearch = computed(() =>
-    items.value.filter((item) => item.name.toLowerCase().includes(debounced.value.toLowerCase())),
+    items.value.filter((item) =>
+      item.name.toLowerCase().includes(appliedSearch.value.toLowerCase()),
+    ),
   )
   const itemsInCategory = computed(() =>
     selectedCategory.value === ALL_CATEGORIES

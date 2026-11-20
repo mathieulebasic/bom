@@ -11,7 +11,6 @@
 
 <script setup lang="ts">
 import type { Item } from '../types'
-import { RouterLink } from 'vue-router'
 
 defineProps<{
   item: Item
