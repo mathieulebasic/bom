@@ -26,7 +26,7 @@ export function useCatalogFilters(
     get() {
       return rawCategory.value && categories.value.includes(rawCategory.value)
         ? rawCategory.value
-        : 'ALL_CATEGORIES'
+        : ALL_CATEGORIES
     },
     set(value) {
       rawCategory.value = value !== ALL_CATEGORIES ? value : undefined

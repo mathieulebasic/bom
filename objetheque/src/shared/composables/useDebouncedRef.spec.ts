@@ -9,7 +9,7 @@ describe('useDebouncedRef', () => {
   it('valeur cible est mise à jour juste après le délai', async () => {
     const debounced = ref('')
     const scope = effectScope()
-    const { value } = scope.run(() => useDebouncedRef('', debounced, 30000))!
+    const { value } = scope.run(() => useDebouncedRef('', debounced, 300))!
     value.value = 'newSearch'
     await nextTick()
     expect(debounced.value).toBe('')
