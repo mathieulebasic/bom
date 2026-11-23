@@ -1,17 +1,51 @@
-import type { Item } from '@/features/catalog/types'
-import { ALL_CATEGORIES } from '@/features/catalog/catalogFilters'
-import { ref, computed, type Ref } from 'vue'
+import type { Item } from '../types'
+import { ALL_CATEGORIES } from '../catalogFilters'
+import { computed, type Ref } from 'vue'
 import { uniq } from 'lodash-es'
-import { useDebouncedRef } from '../../../shared/composables/useDebouncedRef'
-export function useCatalogFilters(items: Ref<Item[]>) {
-  const { value: search, debounced, setNow } = useDebouncedRef('', 300)
-  const selectedCategory = ref(ALL_CATEGORIES)
-  const onlyAvailable = ref(false)
+import { useDebouncedRef } from '@/shared/composables/useDebouncedRef'
+export function useCatalogFilters(
+  items: Ref<Item[]>,
+  rawCategory: Ref<string | undefined | null>,
+  rawSearch: Ref<string | undefined | null>,
+  rawOnlyAvailable: Ref<string | undefined | null>,
+) {
+  const appliedSearch = computed({
+    get() {
+      return rawSearch.value ?? ''
+    },
+    set(value) {
+      rawSearch.value = value
+    },
+  })
+
+  const { value: search, setNow } = useDebouncedRef(rawSearch.value ?? '', appliedSearch, 300)
+
+  const categories = computed(() => uniq(items.value.map((item) => item.category)))
+
+  const selectedCategory = computed({
+    get() {
+      return rawCategory.value && categories.value.includes(rawCategory.value)
+        ? rawCategory.value
+        : ALL_CATEGORIES
+    },
+    set(value) {
+      rawCategory.value = value !== ALL_CATEGORIES ? value : undefined
+    },
+  })
+  const onlyAvailable = computed({
+    get() {
+      return rawOnlyAvailable.value === 'true'
+    },
+    set(value) {
+      rawOnlyAvailable.value = value ? 'true' : undefined
+    },
+  })
 
   const itemsInSearch = computed(() =>
-    items.value.filter((item) => item.name.toLowerCase().includes(debounced.value.toLowerCase())),
+    items.value.filter((item) =>
+      item.name.toLowerCase().includes(appliedSearch.value.toLowerCase()),
+    ),
   )
-  const categories = computed(() => uniq(items.value.map((item) => item.category)))
   const itemsInCategory = computed(() =>
     selectedCategory.value === ALL_CATEGORIES
       ? itemsInSearch.value
@@ -33,8 +67,8 @@ export function useCatalogFilters(items: Ref<Item[]>) {
 
   return {
     categories,
-    search,
     selectedCategory,
+    search,
     onlyAvailable,
     visibleItems,
     hasActiveFilters,
